@@ -90,7 +90,7 @@ Para probar la aplicación, puedes usar estas credenciales:
 ### Dashboard Principal
 ![Dashboard](docs/images/dashboard-screen.png)
 
-*Nota: Agrega tus capturas de pantalla en la carpeta `docs/images/`*
+<!--*Nota: Agrega tus capturas de pantalla en la carpeta `docs/images/`*-->
 
 ## 🏗️ Arquitectura
 
