@@ -1,6 +1,6 @@
 import 'package:cobrosyprestamos/features/auth/data/auth_repository.dart';
 import 'package:cobrosyprestamos/features/auth/domain/entities/user.dart';
-import 'package:cobrosyprestamos/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:cobrosyprestamos/features/main/presentation/screens/main_navigation_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -54,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
   void _handleSuccesLogin(UserEntity user){
     //6.- Navegacion 
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context)=> DashboardPage(user: user,))
+      MaterialPageRoute(builder: (context)=> MainNavigationScreen(user: user,))
     );
   }
 

@@ -1,3 +1,5 @@
+import 'package:cobrosyprestamos/features/auth/data/auth_repository.dart';
+import 'package:cobrosyprestamos/features/auth/presentation/login_page.dart';
 import 'package:flutter/material.dart';
 
 class CustomHeader extends StatelessWidget {
@@ -21,17 +23,21 @@ class CustomHeader extends StatelessWidget {
               ),
               Text(
                 "$userName!",
-                style: TextStyle(fontSize: 30, color: Color(0xFF3F4459), fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Color(0xFF3F4459),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
-      
+
           //2.- Parte de los botones
           Row(
             children: [
-              _headerButton(Icons.search),
+              _headerButton(Icons.search, null),
               const SizedBox(width: 10),
-              _headerButton(Icons.notifications_none, hasBadge: true),
+              _headerButton(Icons.logout, () => _onLogout(context) ),
             ],
           ),
         ],
@@ -39,7 +45,7 @@ class CustomHeader extends StatelessWidget {
     );
   }
 
-  Widget _headerButton(IconData icon, {bool hasBadge = false}) {
+  Widget _headerButton(IconData icon, VoidCallback? onPressed) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -49,24 +55,25 @@ class CustomHeader extends StatelessWidget {
       child: Stack(
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: onPressed,
             icon: Icon(icon, color: Colors.black87),
           ),
-          if (hasBadge)
-            Positioned(
-              right: 12,
-              top: 12,
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
         ],
       ),
     );
+  }
+
+  void _onLogout(BuildContext context) async {
+    final autRepo = AuthRepository();
+    await autRepo.logout();
+    
+    if (context.mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false,
+      );
+    }
+
   }
 }

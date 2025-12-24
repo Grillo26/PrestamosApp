@@ -3,6 +3,7 @@ import 'package:cobrosyprestamos/features/auth/domain/entities/user.dart';
 import 'package:cobrosyprestamos/features/auth/presentation/login_page.dart';
 import 'package:cobrosyprestamos/features/dashboard/presentation/widgets/balance_card.dart';
 import 'package:cobrosyprestamos/features/dashboard/presentation/widgets/custom_header.dart';
+import 'package:cobrosyprestamos/features/dashboard/presentation/widgets/recent_list.dart';
 import 'package:cobrosyprestamos/features/dashboard/presentation/widgets/summary_grid.dart';
 import 'package:flutter/material.dart';
 
@@ -35,14 +36,11 @@ class DashboardPage extends StatelessWidget {
               //3.- Grid de Resumenes
               const SummaryGrid(),
 
-              //Intentando boton
-              SizedBox(
-                child: IconButton(
-                  onPressed: () => _onLogout(context),
-                  icon: const Icon(Icons.exit_to_app),
-                  color: Colors.red,
-                ),
-              ),
+              const SizedBox(height: 20),
+
+              //4.- Transacciones Recientes
+              const RecentList()
+
             ],
           ),
         ),
@@ -50,17 +48,5 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  // Para cerrar sesion
-  void _onLogout(BuildContext context) async {
-    final autRepo = AuthRepository();
-    await autRepo.logout();
 
-    if (context.mounted) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-        (route) => false,
-      );
-    }
-  }
 }
