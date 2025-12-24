@@ -1,6 +1,7 @@
 import 'package:cobrosyprestamos/features/auth/domain/entities/user.dart';
 import 'package:cobrosyprestamos/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   final UserEntity user;
@@ -22,8 +23,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     super.initState();
     _pages = [
       DashboardPage(user: widget.user), // Pantalla 0
-      const Center(child: Text("Pantalla de Prestamos")),
-      const Center(child: Text("Pantalla de Clientes")),
+      const Center(child: Text("Pantalla de Todos los usuarios")),
+      const Center(child: Text("Pantalla Nuevo Registro")),
+      const Center(child: Text("Pantalla de ")),
+      const Center(child: Text("Calculadora")),
     ];
   }
 
@@ -37,29 +40,60 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectIndex],
+      extendBody: true,
+      body: IndexedStack(
+        index: _selectIndex,
+        children:_pages,
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF6A2DFA),
+        shape: const CircleBorder(),
+        onPressed: () => setState(() {
+          _selectIndex = 2;
+        }),
+        child: const Icon(Icons.add, color: Colors.white, size: 30),
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       //4.- Nuestra barra
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectIndex, //Que pestana brilla
-        onTap: _onItemTapped, //Que pasa cuando tocas
-        selectedItemColor: const Color(0xFF6A2DFA),
-        unselectedItemColor: Colors.grey,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_outlined) ,
-            label: 'Inicio'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet_outlined),
-            label: 'Prestamos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people_outline),
-            label: 'Perfil'
-          )
-        ],
+      bottomNavigationBar: BottomAppBar(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: 65,
+        color: Colors.white,
+        shape: const CircularNotchedRectangle(), //Crear el hueco circular
+        notchMargin: 8.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            //Lado izquierdo
+            _buildNavItem('assets/icons/home.svg', 0),
+            _buildNavItem('assets/icons/clientes.svg', 1),
+
+            const SizedBox(width: 40),
+
+            _buildNavItem('assets/icons/lista.svg', 3),
+            _buildNavItem('assets/icons/calculadora.svg', 4),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildNavItem(String assetPath, int index) {
+    final isSelected = _selectIndex == index;
+    return IconButton(
+      icon: SvgPicture.asset(
+        assetPath,
+        colorFilter: ColorFilter.mode(
+          isSelected ? const Color(0xFF6A2DFA) : const Color(0xFF353956),
+          BlendMode.srcIn
+        ),
+      ),
+      onPressed: () => setState(() {
+        _selectIndex = index;
+      }),
     );
   }
 }
