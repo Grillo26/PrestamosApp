@@ -25,7 +25,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       DashboardPage(user: widget.user), // Pantalla 0
       const Center(child: Text("Pantalla de Todos los usuarios")),
       const Center(child: Text("Pantalla Nuevo Registro")),
-      const Center(child: Text("Pantalla de ")),
+      const Center(child: Text("Pantalla de Transacciones")),
       const Center(child: Text("Calculadora")),
     ];
   }
@@ -52,7 +52,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         onPressed: () => setState(() {
           _selectIndex = 2;
         }),
-        child: const Icon(Icons.add, color: Colors.white, size: 30),
+        child: const Icon(Icons.add, color: Colors.white, size: 30,),
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

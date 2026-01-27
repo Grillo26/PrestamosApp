@@ -14,6 +14,8 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _isPasswordVisible = false;
+  bool _remeberMe = false;
 
   //Instanciamos el servicio (pieza de la capa data)
   final AuthRepository _authRepository = AuthRepository();
@@ -44,26 +46,26 @@ class _LoginFormState extends State<LoginForm> {
     });
 
     //5.- Manejar Resultado
-    if (user != null){
-       _handleSuccesLogin(user);
-    } else{
+    if (user != null) {
+      _handleSuccesLogin(user);
+    } else {
       _handleFailedLogin();
     }
   }
 
-  void _handleSuccesLogin(UserEntity user){
-    //6.- Navegacion 
+  void _handleSuccesLogin(UserEntity user) {
+    //6.- Navegacion
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context)=> MainNavigationScreen(user: user,))
+      MaterialPageRoute(builder: (context) => MainNavigationScreen(user: user)),
     );
   }
 
-  void _handleFailedLogin(){
+  void _handleFailedLogin() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Credenciales incorrectas. Intenta nuevamente'),
         backgroundColor: Colors.red,
-      )
+      ),
     );
   }
 
@@ -76,31 +78,74 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    // El widget From necesito envolver todos los campos para poder validarlos juntos
+    // envolver todos los campos para poder validarlos juntos
     return Form(
       key: _formKey,
       child: Column(
         children: <Widget>[
-          // 4.- Campo de Email
-          TextFormField(
-            controller: _username, //Conectamos con el controllador
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              labelText: 'Username',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.person),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Iniciar Sesión',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF353956),
+              ),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor, ingresa tu correo';
-              }
-              return null;
+          ),
+
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Por favor inicie sesión para continuar',
+              style: TextStyle(fontSize: 14, color: Color(0xff7C8386)),
+            ),
+          ),
+
+          SizedBox(height: 30),
+
+          _buildTextField(
+            controller: _username,
+            hintText: "Username",
+            icon: Icons.person_outline, 
+            tipoTeclado: TextInputType.text, 
+            
+          ),
+
+          SizedBox(height: 20),
+
+          _buildTextField(
+            controller: _passwordController,
+            hintText: 'Contraseña',
+            icon: Icons.lock,
+            tipoTeclado: TextInputType.number,
+            isPassword: true,
+            isPasswordVisible: _isPasswordVisible,
+            onToggleVisibility: () {
+              setState(()=> _isPasswordVisible = !_isPasswordVisible);
             },
           ),
 
+          /*Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Recordar Cuenta', style: TextStyle(color: Color(0xff7C8386)),),
+              Transform.scale(
+                scale: 0.8,
+                child: Switch(
+                  value: _remeberMe, 
+                  activeColor: const Color(0xff6A2DFA),
+                  onChanged: (value) => setState(() => _remeberMe = value)
+                  
+                ),
+              )
+            ],
+          ),*/
+
           const SizedBox(height: 16),
 
-          TextFormField(
+          /*TextFormField(
             controller: _passwordController,
             obscureText: true,
             keyboardType: TextInputType.number,
@@ -118,8 +163,7 @@ class _LoginFormState extends State<LoginForm> {
                 return 'La contraseña debe tener al menos 6 caracteres';
               }
             },
-          ),
-
+          ),*/
           const SizedBox(height: 16),
 
           SizedBox(
@@ -127,9 +171,15 @@ class _LoginFormState extends State<LoginForm> {
             height: 50,
             child: ElevatedButton(
               onPressed: _submitLogin,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xff6A2DFA)
+              ),
               child: const Text(
                 'Iniciar Sesion',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white
+                ),
               ),
             ),
           ),
@@ -137,4 +187,41 @@ class _LoginFormState extends State<LoginForm> {
       ),
     );
   }
+}
+
+Widget _buildTextField({
+  required TextEditingController controller,
+  required String hintText,
+  required IconData icon,
+  required TextInputType tipoTeclado,
+  bool isPassword = false,
+  bool isPasswordVisible = false,
+  VoidCallback? onToggleVisibility,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      color: const Color(0xffF5F5F9),
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: TextField(
+      controller: controller,
+      keyboardType: tipoTeclado,
+      obscureText: isPassword && !isPasswordVisible,
+      decoration: InputDecoration(
+        hintText: hintText,
+        prefixIcon: Icon(icon, color: const Color(0xff3F4459)),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: onToggleVisibility,
+              )
+            : null,
+        border: InputBorder.none,
+        contentPadding: const EdgeInsets.symmetric(vertical: 15),
+      ),
+      
+    ),
+  );
 }
