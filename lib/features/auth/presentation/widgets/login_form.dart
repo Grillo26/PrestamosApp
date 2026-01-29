@@ -127,43 +127,8 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
 
-          /*Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Recordar Cuenta', style: TextStyle(color: Color(0xff7C8386)),),
-              Transform.scale(
-                scale: 0.8,
-                child: Switch(
-                  value: _remeberMe, 
-                  activeColor: const Color(0xff6A2DFA),
-                  onChanged: (value) => setState(() => _remeberMe = value)
-                  
-                ),
-              )
-            ],
-          ),*/
-
           const SizedBox(height: 16),
 
-          /*TextFormField(
-            controller: _passwordController,
-            obscureText: true,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'Contraseña',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.lock),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor, ingrea tu contraseña';
-              }
-
-              if (value.length < 6) {
-                return 'La contraseña debe tener al menos 6 caracteres';
-              }
-            },
-          ),*/
           const SizedBox(height: 16),
 
           SizedBox(

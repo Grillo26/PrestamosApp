@@ -8,7 +8,7 @@ class SummaryGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(3.0),
+      padding: const EdgeInsets.all(1.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -26,7 +26,7 @@ class SummaryGrid extends StatelessWidget {
 
           Row(
             children: [
-              _card('assets/icons/ultimoPago.svg', 'Último Pago', '1000','sdfsdf', isCard: true),
+              _card('assets/icons/ultimoPago.svg', 'Último Pago', '1000','sdfsdf', isCard: true), //isCard es si la card será de color solido violeta
               SizedBox(width: 10,),
               _card('assets/icons/totalVentas.svg', 'Total Ventas', '2330','Hace 10 min', isCard: false)
             ]
@@ -56,7 +56,8 @@ class SummaryGrid extends StatelessWidget {
             colors: [Color(0xFFb7b1f7), Color(0XFFf3efee)],
           ),
           borderRadius: BorderRadius.circular(20),
-          border: BoxBorder.all(color: Color(0xFFb7b1f7)),
+          //border: BoxBorder.all(color: Color(0xFFb7b1f7)),
+          
         ) 
         : BoxDecoration(
           color: Color(0XFFf3efee),
@@ -70,7 +71,8 @@ class SummaryGrid extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: Color(0xFF353956),
+                color: Color(0xff353956)
+                ,
                 fontWeight: FontWeight.bold,
                 fontSize: 20
               ),
@@ -79,14 +81,12 @@ class SummaryGrid extends StatelessWidget {
               "Bs. $cantidad",
               style: TextStyle(
                 fontSize: 18,
-                color: Color(0xFF353956),
+                color:  Color(0xFF353956),
               ),
             ),
             Text(
               tiempo,
-              style: isCard 
-              ? TextStyle( color: Color(0xFFB28DE7), fontWeight: FontWeight.bold)
-              : TextStyle( color: Color(0xFF878991))
+              style: TextStyle( color: Color(0xFF878991))
             )
             
           ],

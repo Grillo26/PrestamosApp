@@ -31,8 +31,6 @@ class DashboardPage extends StatelessWidget {
               //2.- Cuadro principal: Total en caja
               BalanceCard(amount: 2000),
 
-              const SizedBox(height: 20),
-
               //3.- Grid de Resumenes
               const SummaryGrid(),
 
