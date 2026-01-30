@@ -1,5 +1,6 @@
 import 'package:cobrosyprestamos/features/auth/domain/entities/user.dart';
 import 'package:cobrosyprestamos/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:cobrosyprestamos/features/main/presentation/screens/operations_hub_page_screen.dart';
 import 'package:cobrosyprestamos/features/users/presentation/screens/user_list_page_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,7 +26,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     _pages = [
       DashboardPage(user: widget.user), // Pantalla 0
       UserListPage(),
-      const Center(child: Text("Pantalla Nuevo Registro")),
+      OperationsHub(),
       const Center(child: Text("Pantalla de Transacciones")),
       const Center(child: Text("Calculadora")),
     ];
